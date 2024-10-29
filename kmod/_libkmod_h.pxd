@@ -19,7 +19,7 @@ cimport libc.stdint as _stdint
 
 cdef extern from *:
     ctypedef char* const_char_ptr 'const char *'
-    ctypedef char* const_char_const_ptr 'const char const *'
+    ctypedef char** const_char_const_ptr 'const char *const *'
     ctypedef void* const_void_ptr 'const void *'
 
 
