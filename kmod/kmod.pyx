@@ -25,29 +25,33 @@ import module as _module
 cimport list as _list
 import list as _list
 
-
 cdef class Kmod (object):
     "Wrap a struct kmod_ctx* item"
     def __cinit__(self):
         self._kmod_ctx = NULL
         self.mod_dir = None
+        self.config_paths = None
 
     def __dealloc__(self):
         self._cleanup()
 
-    def __init__(self, mod_dir=None):
-        self.set_mod_dir(mod_dir=mod_dir)
+    def __init__(self, mod_dir=None, config_paths=None):
+        self.set_mod_dir(mod_dir=mod_dir, config_paths=config_paths)
 
-    def set_mod_dir(self, mod_dir=None):
+    def set_mod_dir(self, mod_dir=None, config_paths=None):
         self.mod_dir = mod_dir
+        self.config_paths = config_paths
         self._setup()
 
     def _setup(self):
-        cdef char *mod_dir = NULL
+        cdef const char *mod_dir = NULL
+        cdef const char *config_paths = NULL
         self._cleanup()
         if self.mod_dir:
             mod_dir = self.mod_dir
-        self._kmod_ctx = _libkmod_h.kmod_new(mod_dir, NULL);
+        if self.config_paths:
+            config_paths = self.config_paths
+        self._kmod_ctx = _libkmod_h.kmod_new(mod_dir, &config_paths);
         if self._kmod_ctx is NULL:
             raise _KmodError('Could not initialize')
         _libkmod_h.kmod_load_resources(self._kmod_ctx)
