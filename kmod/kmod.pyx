@@ -126,4 +126,6 @@ cdef class Kmod (object):
        e.g. km.rmmod("thinkpad_acpi")
        """
        mod = self.module_from_name(name=module_name)
+       if(mod.check_module_inuse()):
+            raise _KmodError('Could not rmmod %s which is in use' % module_name)
        mod.remove(*args, **kwargs)
