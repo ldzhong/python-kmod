@@ -142,6 +142,8 @@ cdef class Module (object):
             self.module, flags, opt, install, d, print_action)
         if err == -_errno.EEXIST:
             raise _KmodError('Module already loaded')
+        elif err == -_errno.ENOENT:
+            raise _KmodError('Unknown symbol in module,or unknown parameter (see dmesg)')
         elif err < 0:
             raise _KmodError('Could not load module')
 
