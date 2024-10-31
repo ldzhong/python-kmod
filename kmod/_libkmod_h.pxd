@@ -99,7 +99,14 @@ cdef extern from 'kmod/libkmod.h':
     # Information regarding "live information" from module's state, as
     # returned by kernel
     int kmod_module_get_refcnt(const_kmod_module_ptr mod)
+    kmod_list *kmod_module_get_holders(const_kmod_module_ptr mod)
     long kmod_module_get_size(const_kmod_module_ptr mod)
+
+    enum kmod_module_initstate:
+        KMOD_MODULE_BUILTIN = 0, KMOD_MODULE_LIVE, KMOD_MODULE_COMING, KMOD_MODULE_GOING,
+        _KMOD_MODULE_PAD = 1U << 31
+
+    int kmod_module_get_initstate(const_kmod_module_ptr mod)
 
     # Information retrieved from ELF headers and section
     int kmod_module_get_info(const_kmod_module_ptr mod, kmod_list **list)

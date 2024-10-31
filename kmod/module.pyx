@@ -115,6 +115,22 @@ cdef class Module (object):
             ml.list = NULL
     versions = property(fget=_versions_get)
 
+    def check_module_inuse(self):
+        """
+        check if the module is in use
+        """
+
+        state = _libkmod_h.kmod_module_get_initstate(self.module)
+        if state == _libkmod_h.KMOD_MODULE_BUILTIN or state < 0:
+            return True
+        holders = _libkmod_h.kmod_module_get_holders(self.module)
+        if holders != NULL:
+            return True
+        if self.refcnt > 0:
+            return True
+
+        return False
+
     def insert(self, flags=0, extra_options=None, install_callback=None,
                data=None, print_action_callback=None):
         """
