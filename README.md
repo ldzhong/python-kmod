@@ -39,5 +39,9 @@ Ensure Python, Cython, and the kmod headers are installed and run::
 
 ```
   $ python setup.py build
+
+  After some updates with python3
+
+  $ python3 -m build
 ```
 
