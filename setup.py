@@ -48,10 +48,17 @@ if platform.system() == "Linux":
                     libraries=['kmod'],
                     ))
 
+# read the contents of README file
+from patlib import Path
+root_directory = Path(__file__).parent
+long_description = (root_directory / "README.md").read_text()
+
 setup(
     name=package_name,
     version=__version__,
     description='Python binding for kmod',
+    long_description=long_description,
+    long_description_content_type='text/markdown'
     packages=[package_name],
     provides=[package_name],
     maintainer="Andy Grover",
