@@ -142,14 +142,14 @@ cdef class Module (object):
         """
         cdef char *opt = NULL
         #cdef _libkmod_h.install_callback_t install = NULL
-        cdef int (*install)(
-            _libkmod_h.kmod_module *, _libkmod_h.const_char_ptr, void *)
+        #cdef int (*install)(
+        #    _libkmod_h.kmod_module *, _libkmod_h.const_char_ptr, void *)
         install = NULL
         cdef void *d = NULL
         #cdef _libkmod_h.print_action_callback_t print_action = NULL
-        cdef void (*print_action)(
-            _libkmod_h.kmod_module *, _libkmod_h.bool,
-            _libkmod_h.const_char_ptr)
+        #cdef void (*print_action)(
+        #    _libkmod_h.kmod_module *, _libkmod_h.bool,
+        #    _libkmod_h.const_char_ptr)
         print_action = NULL
         if extra_options:
             opt = extra_options

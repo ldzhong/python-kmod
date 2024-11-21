@@ -72,10 +72,10 @@ cdef extern from 'kmod/libkmod.h':
     # codes below can be used in return value, too
     enum: KMOD_PROBE_APPLY_BLACKLIST
 
-    #ctypedef int (*install_callback_t)(
-    #    kmod_module *m, const_char_ptr cmdline, const_void_ptr data)
-    #ctypedef void (*print_action_callback_t)(
-    #    kmod_module *m, bool install, const_char_ptr options)
+    ctypedef int (*install_callback_t)(
+            kmod_module *m, const_char_ptr cmdline, const_void_ptr data)
+    ctypedef void (*print_action_callback_t)(
+            kmod_module *m, bool install, const_char_ptr options)
 
     int kmod_module_remove_module(
         kmod_module *mod, unsigned int flags)
@@ -83,12 +83,18 @@ cdef extern from 'kmod/libkmod.h':
         kmod_module *mod, unsigned int flags, const_char_ptr options)
     int kmod_module_probe_insert_module(
         kmod_module *mod, unsigned int flags, const_char_ptr extra_options,
-        int (*run_install)(
-            kmod_module *m, const_char_ptr cmdline, void *data),
+        install_callback_t install,
         const_void_ptr data,
-        void (*print_action)(
-            kmod_module *m, bool install, const_char_ptr options),
+        print_action_callback_t print_action,
         )
+    #int kmod_module_probe_insert_module(
+    #    kmod_module *mod, unsigned int flags, const_char_ptr extra_options,
+    #    int (*run_install)(
+    #        kmod_module *m, const_char_ptr cmdline, void *data),
+    #    const_void_ptr data,
+    #    void (*print_action)(
+    #        kmod_module *m, bool install, const_char_ptr options),
+    #    )
 
     const_char_ptr kmod_module_get_name(const_kmod_module_ptr mod)
     const_char_ptr kmod_module_get_path(const_kmod_module_ptr mod)
